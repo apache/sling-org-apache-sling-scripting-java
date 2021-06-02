@@ -65,8 +65,6 @@ import org.slf4j.LoggerFactory;
 @Component(service={javax.script.ScriptEngineFactory.class, ResourceChangeListener.class},
            property={
                    "extensions=" + JavaScriptEngineFactory.SCRIPT_TYPE,
-                   "names=java",
-                   "names=Java",
                    Constants.SERVICE_VENDOR + "=The Apache Software Foundation",
                    Constants.SERVICE_DESCRIPTION + "=" + JavaScriptEngineFactory.DESCRIPTION,
                    ResourceChangeListener.CHANGES + "=CHANGED",
@@ -125,6 +123,7 @@ public class JavaScriptEngineFactory
      */
     public JavaScriptEngineFactory() {
         setExtensions(SCRIPT_TYPE);
+        setNames("java", "Java");
     }
 
     /**
@@ -174,7 +173,6 @@ public class JavaScriptEngineFactory
         this.ioProvider = new SlingIOProvider(this.javaCompiler, opts);
         this.javaServletContext = new JavaServletContext(ioProvider,
             slingServletContext);
-
         this.servletConfig = new JavaServletConfig(javaServletContext, props);
 
         logger.info("Activating Apache Sling Script Engine for Java with options {}", opts);
