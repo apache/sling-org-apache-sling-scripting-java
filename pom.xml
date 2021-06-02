@@ -32,7 +32,7 @@
   <version>2.1.5-SNAPSHOT</version>
   <packaging>bundle</packaging>
 
-  <name>Apache Sling Scripting Java Support</name>
+  <name>Apache Sling Scripting Java</name>
   <description>Support for scripting Java</description>
 
   <scm>
