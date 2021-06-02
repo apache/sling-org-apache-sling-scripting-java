@@ -23,14 +23,13 @@
 
   <parent>
     <groupId>org.apache.sling</groupId>
-    <artifactId>sling</artifactId>
-    <version>30</version>
+    <artifactId>sling-bundle-parent</artifactId>
+    <version>41</version>
     <relativePath />
   </parent>
 
   <artifactId>org.apache.sling.scripting.java</artifactId>
   <version>2.1.7-SNAPSHOT</version>
-  <packaging>bundle</packaging>
 
   <name>Apache Sling Scripting Java</name>
   <description>Support for scripting Java</description>
@@ -45,17 +44,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <ScriptEngine-Name>${project.name}</ScriptEngine-Name>
-            <ScriptEngine-Version>${project.version}</ScriptEngine-Version>
-          </instructions>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
@@ -69,11 +57,34 @@
   </build>
 
   <dependencies>
+    <!-- javax -->
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <!-- OSGi -->
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.core</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.metatype.annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <!-- Apache Sling -->
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.api</artifactId>
@@ -104,19 +115,10 @@
       <version>1.2.0</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-    </dependency>
+    <!-- logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>1</version>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
 

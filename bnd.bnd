@@ -1,0 +1,7 @@
+ScriptEngine-Name: ${project.name}
+
+ScriptEngine-Version: ${project.version}
+
+-removeheaders:\
+  Include-Resource,\
+  Private-Package
