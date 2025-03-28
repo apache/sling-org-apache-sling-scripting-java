@@ -1,29 +1,22 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-
 package org.apache.sling.scripting.java.impl;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.Servlet;
@@ -33,6 +26,14 @@ import javax.servlet.SingleThreadModel;
 import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.classloader.DynamicClassLoader;
@@ -79,14 +80,16 @@ public class ServletWrapper {
     /**
      * A wrapper for servlets.
      */
-    public ServletWrapper(final ServletConfig config,
-                          final SlingIOProvider ioProvider,
-                          final String servletPath,
-                          final SlingScriptHelper scriptHelper) {
+    public ServletWrapper(
+            final ServletConfig config,
+            final SlingIOProvider ioProvider,
+            final String servletPath,
+            final SlingScriptHelper scriptHelper) {
         this.config = config;
         this.ioProvider = ioProvider;
         this.sourcePath = servletPath;
-        this.className = CompilerUtil.mapSourcePath(this.sourcePath).substring(1).replace('/', '.');
+        this.className =
+                CompilerUtil.mapSourcePath(this.sourcePath).substring(1).replace('/', '.');
         this.scriptHelper = scriptHelper;
     }
 
@@ -96,16 +99,12 @@ public class ServletWrapper {
      * @param response The current response.
      * @throws Exception
      */
-    public void service(HttpServletRequest request,
-                         HttpServletResponse response)
-    throws Exception {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             if ((available > 0L) && (available < Long.MAX_VALUE)) {
                 if (available > System.currentTimeMillis()) {
                     response.setDateHeader("Retry-After", available);
-                    response.sendError
-                        (HttpServletResponse.SC_SERVICE_UNAVAILABLE,
-                         "Servlet unavailable.");
+                    response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Servlet unavailable.");
                     logger.error("Java servlet {} is unavailable.", this.sourcePath);
                     return;
                 }
@@ -129,13 +128,10 @@ public class ServletWrapper {
         } catch (final UnavailableException ex) {
             int unavailableSeconds = ex.getUnavailableSeconds();
             if (unavailableSeconds <= 0) {
-                unavailableSeconds = 60;        // Arbitrary default
+                unavailableSeconds = 60; // Arbitrary default
             }
-            available = System.currentTimeMillis() +
-                (unavailableSeconds * 1000L);
-            response.sendError
-                (HttpServletResponse.SC_SERVICE_UNAVAILABLE,
-                 ex.getMessage());
+            available = System.currentTimeMillis() + (unavailableSeconds * 1000L);
+            response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, ex.getMessage());
             logger.error("Java servlet {} is unavailable.", this.sourcePath);
         }
     }
@@ -154,8 +150,8 @@ public class ServletWrapper {
      * Check if the used classloader is still valid
      */
     private boolean checkReload() {
-        if ( theServlet != null && theServlet.getClass().getClassLoader() instanceof DynamicClassLoader ) {
-            return !((DynamicClassLoader)theServlet.getClass().getClassLoader()).isLive();
+        if (theServlet != null && theServlet.getClass().getClassLoader() instanceof DynamicClassLoader) {
+            return !((DynamicClassLoader) theServlet.getClass().getClassLoader()).isLive();
         }
         return theServlet == null;
     }
@@ -164,9 +160,8 @@ public class ServletWrapper {
      * Get the servlet class - if the used classloader is not valid anymore
      * the class is reloaded.
      */
-    public Servlet getServlet()
-    throws Exception {
-        if ( this.compileException != null ) {
+    public Servlet getServlet() throws Exception {
+        if (this.compileException != null) {
             throw this.compileException;
         }
         // check if the used class loader is still alive
@@ -205,13 +200,16 @@ public class ServletWrapper {
                     } else if (type instanceof ParameterizedType) {
                         ParameterizedType ptype = (ParameterizedType) type;
                         if (ptype.getActualTypeArguments().length != 1) {
-                            logger.warn("Field {} of {} has more than one type parameter.", field.getName(), sourcePath);
+                            logger.warn(
+                                    "Field {} of {} has more than one type parameter.", field.getName(), sourcePath);
                             continue;
                         }
                         Class<?> collectionType = (Class<?>) ptype.getRawType();
-                        if (!(collectionType.equals(Collection.class) ||
-                                collectionType.equals(List.class))) {
-                            logger.warn("Field {} of {} was not an injectable collection type.", field.getName(), sourcePath);
+                        if (!(collectionType.equals(Collection.class) || collectionType.equals(List.class))) {
+                            logger.warn(
+                                    "Field {} of {} was not an injectable collection type.",
+                                    field.getName(),
+                                    sourcePath);
                             continue;
                         }
 
@@ -222,9 +220,11 @@ public class ServletWrapper {
                         logger.warn("Field {} of {} was not an injectable type.", field.getName(), sourcePath);
                     }
                 } catch (final IllegalArgumentException e) {
-                    logger.error(String.format("Unable to inject into field %s of %s.", field.getName(), sourcePath), e);
+                    logger.error(
+                            String.format("Unable to inject into field %s of %s.", field.getName(), sourcePath), e);
                 } catch (final IllegalAccessException e) {
-                    logger.error(String.format("Unable to inject into field %s of %s.", field.getName(), sourcePath), e);
+                    logger.error(
+                            String.format("Unable to inject into field %s of %s.", field.getName(), sourcePath), e);
                 } finally {
                     field.setAccessible(false);
                 }
@@ -236,24 +236,25 @@ public class ServletWrapper {
      * Compile the servlet java class. If the compiled class has
      * injected fields, don't create an instance of it.
      */
-    private void compile()
-    throws Exception {
+    private void compile() throws Exception {
         logger.debug("Compiling {}", this.sourcePath);
         // clear exception
         this.compileException = null;
         try {
             final CompilerOptions opts = this.ioProvider.getForceCompileOptions();
             final CompilationUnit unit = new CompilationUnit(this.sourcePath, className, ioProvider);
-            final CompilationResult result = this.ioProvider.getCompiler().compile(new org.apache.sling.commons.compiler.CompilationUnit[] {unit},
-                    opts);
+            final CompilationResult result = this.ioProvider
+                    .getCompiler()
+                    .compile(new org.apache.sling.commons.compiler.CompilationUnit[] {unit}, opts);
 
             final List<CompilerMessage> errors = result.getErrors();
             this.destroy();
-            if ( errors != null && errors.size() > 0 ) {
+            if (errors != null && errors.size() > 0) {
                 throw CompilerException.create(errors, this.sourcePath);
             }
 
-            final Servlet servlet = (Servlet) result.loadCompiledClass(this.className).newInstance();
+            final Servlet servlet =
+                    (Servlet) result.loadCompiledClass(this.className).newInstance();
 
             servlet.init(this.config);
             this.injectFields(servlet);
@@ -268,22 +269,21 @@ public class ServletWrapper {
     }
 
     /** Compiler exception .*/
-    protected final static class CompilerException extends ServletException {
+    protected static final class CompilerException extends ServletException {
 
         private static final long serialVersionUID = 7353686069328527452L;
 
-        public static CompilerException create(final List<CompilerMessage> errors,
-                final String fileName) {
+        public static CompilerException create(final List<CompilerMessage> errors, final String fileName) {
             final StringBuilder buffer = new StringBuilder();
             buffer.append("Compilation errors in ");
             buffer.append(fileName);
             buffer.append(":\n");
-            for(final CompilerMessage e : errors) {
+            for (final CompilerMessage e : errors) {
                 buffer.append("Line ");
                 buffer.append(e.getLine());
                 buffer.append(", column ");
                 buffer.append(e.getColumn());
-                buffer.append(" : " );
+                buffer.append(" : ");
                 buffer.append(e.getMessage());
                 buffer.append("\n");
             }
@@ -291,7 +291,7 @@ public class ServletWrapper {
         }
 
         public CompilerException(final String message) {
-           super(message);
+            super(message);
         }
     }
 }

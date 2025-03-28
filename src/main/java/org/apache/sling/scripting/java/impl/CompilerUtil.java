@@ -1,18 +1,20 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.sling.scripting.java.impl;
 
@@ -25,7 +27,7 @@ public class CompilerUtil {
      */
     public static String mapSourcePath(final String path) {
         final String str;
-        if ( path.endsWith(".java") ) {
+        if (path.endsWith(".java")) {
             str = path.substring(0, path.length() - 5);
         } else {
             str = path;
@@ -33,10 +35,10 @@ public class CompilerUtil {
         final StringBuilder sb = new StringBuilder();
         int pos = 0;
         int start = 0;
-        while ( pos < str.length() ) {
+        while (pos < str.length()) {
             final char c = str.charAt(pos);
-            if ( c == '/' ) {
-                if ( start != pos ) {
+            if (c == '/') {
+                if (start != pos) {
                     sb.append(makeJavaIdentifier(str.substring(start, pos)));
                 }
                 sb.append(c);
@@ -56,8 +58,7 @@ public class CompilerUtil {
      * @return Legal Java identifier corresponding to the given identifier
      */
     private static final String makeJavaIdentifier(String identifier) {
-        StringBuilder modifiedIdentifier =
-            new StringBuilder(identifier.length());
+        StringBuilder modifiedIdentifier = new StringBuilder(identifier.length());
         if (!Character.isJavaIdentifierStart(identifier.charAt(0))) {
             modifiedIdentifier.append('_');
         }
@@ -91,16 +92,56 @@ public class CompilerUtil {
     }
 
     private static final String javaKeywords[] = {
-        "abstract", "assert", "boolean", "break", "byte", "case",
-        "catch", "char", "class", "const", "continue",
-        "default", "do", "double", "else", "enum", "extends",
-        "final", "finally", "float", "for", "goto",
-        "if", "implements", "import", "instanceof", "int",
-        "interface", "long", "native", "new", "package",
-        "private", "protected", "public", "return", "short",
-        "static", "strictfp", "super", "switch", "synchronized",
-        "this", "throws", "transient", "try", "void",
-        "volatile", "while" };
+        "abstract",
+        "assert",
+        "boolean",
+        "break",
+        "byte",
+        "case",
+        "catch",
+        "char",
+        "class",
+        "const",
+        "continue",
+        "default",
+        "do",
+        "double",
+        "else",
+        "enum",
+        "extends",
+        "final",
+        "finally",
+        "float",
+        "for",
+        "goto",
+        "if",
+        "implements",
+        "import",
+        "instanceof",
+        "int",
+        "interface",
+        "long",
+        "native",
+        "new",
+        "package",
+        "private",
+        "protected",
+        "public",
+        "return",
+        "short",
+        "static",
+        "strictfp",
+        "super",
+        "switch",
+        "synchronized",
+        "this",
+        "throws",
+        "transient",
+        "try",
+        "void",
+        "volatile",
+        "while"
+    };
 
     /**
      * Test whether the argument is a Java keyword
@@ -109,18 +150,17 @@ public class CompilerUtil {
         int i = 0;
         int j = javaKeywords.length;
         while (i < j) {
-            int k = (i+j)/2;
+            int k = (i + j) / 2;
             int result = javaKeywords[k].compareTo(key);
             if (result == 0) {
                 return true;
             }
             if (result < 0) {
-                i = k+1;
+                i = k + 1;
             } else {
                 j = k;
             }
         }
         return false;
     }
-
 }

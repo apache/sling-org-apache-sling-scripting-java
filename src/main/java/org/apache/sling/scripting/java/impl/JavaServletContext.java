@@ -1,28 +1,22 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.sling.scripting.java.impl;
-
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
@@ -35,6 +29,14 @@ import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.descriptor.JspConfigDescriptor;
+
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.EventListener;
+import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,8 +87,7 @@ public class JavaServletContext implements ServletContext {
                 return ioProvider.getInputStream(path);
             } catch (Exception ex) {
                 // FileNotFoundException or IOException
-                log.debug("getResourceAsStream: Cannot get resource {}: {}",
-                    path, ex.getMessage());
+                log.debug("getResourceAsStream: Cannot get resource {}: {}", path, ex.getMessage());
             }
         }
 
@@ -98,9 +99,7 @@ public class JavaServletContext implements ServletContext {
                 return url.openStream();
             }
         } catch (Exception e) {
-            log.debug(
-                "getResourceAsStream: Cannot access resource {} through URL: {}",
-                path, e.getMessage());
+            log.debug("getResourceAsStream: Cannot access resource {} through URL: {}", path, e.getMessage());
         }
 
         return null;
@@ -429,11 +428,11 @@ public class JavaServletContext implements ServletContext {
         return delegatee.getVirtualServerName();
     }
 
-    //---------- internal -----------------------------------------------------
+    // ---------- internal -----------------------------------------------------
 
     private URL getUrlForResource(String path) {
         int cs = path.indexOf(":/");
-        if (cs > 0 && cs < path.length()-2) {
+        if (cs > 0 && cs < path.length() - 2) {
             // insert second slash after scheme (was canonicalized away)
             cs += 2;
             if (cs < path.length() && path.charAt(cs) != '/') {
@@ -444,8 +443,7 @@ public class JavaServletContext implements ServletContext {
             try {
                 return new URL(path);
             } catch (MalformedURLException mue) {
-                log.debug("getUrlForResource: Cannot create URL for {}: {}",
-                    path, mue.getMessage());
+                log.debug("getUrlForResource: Cannot create URL for {}: {}", path, mue.getMessage());
             }
         }
 

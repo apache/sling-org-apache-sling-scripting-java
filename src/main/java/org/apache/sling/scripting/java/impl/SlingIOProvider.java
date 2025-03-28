@@ -1,18 +1,20 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.apache.sling.scripting.java.impl;
 
@@ -37,7 +39,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The <code>SlingIOProvider</code>
  */
-public class SlingIOProvider  {
+public class SlingIOProvider {
 
     /** Default logger */
     private final Logger logger = LoggerFactory.getLogger(SlingIOProvider.class);
@@ -60,8 +62,7 @@ public class SlingIOProvider  {
     /**
      * Constructor.
      */
-    SlingIOProvider(final JavaCompiler compiler,
-                    final CompilerOptions options) {
+    SlingIOProvider(final JavaCompiler compiler, final CompilerOptions options) {
         this.requestResourceResolver = new ThreadLocal<ResourceResolver>();
         this.compiler = compiler;
         this.options = options;
@@ -104,8 +105,7 @@ public class SlingIOProvider  {
      * ResourceProvider and retrieved from the Resource if the StreamProvider
      * interface is implemented.
      */
-    public InputStream getInputStream(String fileName)
-    throws FileNotFoundException, IOException {
+    public InputStream getInputStream(String fileName) throws FileNotFoundException, IOException {
         try {
             final Resource resource = getResourceInternal(fileName);
             if (resource == null) {
@@ -120,8 +120,7 @@ public class SlingIOProvider  {
             return stream;
 
         } catch (SlingException se) {
-            throw (IOException) new IOException(
-                "Failed to get InputStream for " + fileName).initCause(se);
+            throw (IOException) new IOException("Failed to get InputStream for " + fileName).initCause(se);
         }
     }
 
@@ -153,8 +152,7 @@ public class SlingIOProvider  {
             final Resource resource = getResourceInternal(path);
             return resource != null ? resource.adaptTo(URL.class) : null;
         } catch (SlingException se) {
-            throw (MalformedURLException) new MalformedURLException(
-                "Cannot get URL for " + path).initCause(se);
+            throw (MalformedURLException) new MalformedURLException("Cannot get URL for " + path).initCause(se);
         }
     }
 
@@ -163,7 +161,8 @@ public class SlingIOProvider  {
         try {
             final Resource resource = getResourceInternal(path);
             if (resource != null) {
-                final Iterator<Resource> entries = resource.getResourceResolver().listChildren(resource);
+                final Iterator<Resource> entries =
+                        resource.getResourceResolver().listChildren(resource);
                 while (entries.hasNext()) {
                     paths.add(entries.next().getPath());
                 }
@@ -183,5 +182,4 @@ public class SlingIOProvider  {
 
         return null;
     }
-
 }
