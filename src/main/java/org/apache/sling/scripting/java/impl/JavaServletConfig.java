@@ -18,13 +18,13 @@
  */
 package org.apache.sling.scripting.java.impl;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 
 /**
  * The <code>JavaServletConfig</code>
@@ -44,9 +44,9 @@ public class JavaServletConfig implements ServletConfig {
         initParams = new HashMap<String, String>();
         for (final Map.Entry<String, Object> entry : config.entrySet()) {
             if (entry.getKey().startsWith("java.")) {
-                if ( entry.getValue() != null ) {
+                if (entry.getValue() != null) {
                     final String strValue = String.valueOf(entry.getValue()).trim();
-                    if ( strValue.length() > 0 ) {
+                    if (strValue.length() > 0) {
                         initParams.put(entry.getKey().substring("java.".length()), strValue);
                     }
                 }
