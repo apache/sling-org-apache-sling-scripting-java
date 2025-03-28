@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.apache.sling</groupId>
     <artifactId>sling-bundle-parent</artifactId>
-    <version>41</version>
+    <version>62</version>
     <relativePath />
   </parent>
 
@@ -40,6 +40,10 @@
     <url>https://github.com/apache/sling-org-apache-sling-scripting-java.git</url>
     <tag>HEAD</tag>
   </scm>
+
+  <properties>
+    <sling.java.version>8</sling.java.version>
+  </properties>
 
   <build>
     <plugins>
@@ -71,7 +75,7 @@
     <!-- OSGi -->
     <dependency>
       <groupId>org.osgi</groupId>
-      <artifactId>osgi.core</artifactId>
+      <artifactId>org.osgi.framework</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -119,6 +123,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
